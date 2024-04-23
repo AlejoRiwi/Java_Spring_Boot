@@ -17,7 +17,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Product save(Product product) {
-        return null;
+        return this.productRepository.save(product);
     }
 
     @Override
@@ -28,17 +28,21 @@ public class ProductService implements IProductService {
 
     @Override
     public Product findById(Long id) {
-        return null;
+        return this.productRepository.findById(id).orElseThrow(null);
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
+        Product productFind = this.productRepository.findById(id).orElseThrow();
+        this.productRepository.delete(productFind);
     }
 
     @Override
-    public Product update(Long id) {
-        return null;
+    public Product update(Long id, Product objProduct) {
+        this.productRepository.findById(id).orElseThrow(null);
+
+        objProduct.setId(id);
+        return this.productRepository.save(objProduct);
     }
 
     @Override
