@@ -3,7 +3,7 @@ package com.riwi.Ejercicio_Tareas.controller;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,20 +25,20 @@ public class TareaController {
     private TareaServices objTareaService;
 
     @GetMapping
-    public String showViewGetAll(ModelMap objModel, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "6") int size) {
+    public String showViewGetAll(Model objModel, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "6") int size) {
 
         Page<Tarea> pageTarea = objTareaService.findPaginated(page - 1, size);
 
-        objModel.addAttribute("tareas", pageTarea.getContent());
+        objModel.addAttribute("tareaList", pageTarea.getContent());
         objModel.addAttribute("currentPage", page);
         objModel.addAttribute("totalPages", pageTarea.getTotalPages());
 
-        return "index";
+        return "list";
     }
     
 
     @GetMapping("/form")
-    public String showFormTarea(ModelMap objModel) {
+    public String showFormTarea(Model objModel) {
         objModel.addAttribute("tarea", new Tarea());
         objModel.addAttribute("action", "/tarea/create");
         return "ViewForm";
@@ -47,7 +47,7 @@ public class TareaController {
 
     @PostMapping("/tarea/create")
     public String createTarea(@ModelAttribute Tarea objTarea) {
-        //TODO: process POST request
+        
         this.objTareaService.insert(objTarea);
         return "redirect:/";
     }
@@ -59,7 +59,7 @@ public class TareaController {
         return "redirect:/";
     }
 
-    @GetMapping("/ipdate/{id}")
     
+
 
 }
