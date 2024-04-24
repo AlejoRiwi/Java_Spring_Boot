@@ -2,6 +2,10 @@ package com.riwi.Ejercicio_Tareas.services;
 
 import com.riwi.Ejercicio_Tareas.entity.Tarea;
 import com.riwi.Ejercicio_Tareas.repository.TareaRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,4 +46,13 @@ public class TareaServices {
     public void delete (Long id) {
         this.objTareaRepository.deleteById(id);
     }
+
+    public Page <Tarea> findPaginated(int page, int size) {
+        if(page < 0) {
+            page = 1;
+        }
+        Pageable objPageable = PageRequest.of(page, size);
+        return this.objTareaRepository.findAll(objPageable);
+    }
+    
 }
